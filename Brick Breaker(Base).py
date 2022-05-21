@@ -31,3 +31,5 @@ while not Quit:
 # pygame, 밑 system 종료
 pygame.quit()
 sys.exit()
+
+# 파일 수정됨
