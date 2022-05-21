@@ -1,18 +1,22 @@
 import pygame
 import sys
 
-pygame.init()  #pygame 초기화
+pygame.init()  # pygame 초기화
 
-#RGB 설정
+# RGB 설정
+PINK = (255, 182, 193)
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
-RED = (255, 0, 0)
+PURPLE = (139, 0, 255)
 GREEN = (0, 255, 0)
+RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
+ORANGE = (255, 127, 0)
+BROWN = (163, 111, 64)
 
 # pygame 창 설정
-size = (800, 600)
+size = (1200, 900)
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Brick Breaker")
 clock = pygame.time.Clock()
