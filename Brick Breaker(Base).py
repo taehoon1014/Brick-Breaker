@@ -24,7 +24,7 @@ class Bar:
         self.x = 300
         self.y = 15
         self.color = random.choice(color_list)
-    
+
     def draw_bar(self):
         pygame.draw.rect(screen, self.color, [self.start_x, self.start_y, self.x, self.y])
 
