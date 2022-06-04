@@ -3,8 +3,8 @@ import sys
 import random
 
 
-# 사각형 클래스 만들기
-class Rectangle:
+# 벽돌 클래스 만들기
+class Brick:
     def __init__(self, x, y):
         self.start_x = x
         self.start_y = y
@@ -16,17 +16,29 @@ class Rectangle:
         pygame.draw.rect(screen, self.color, [self.start_x, self.start_y, self.x, self.y])
 
 
-# 바 만들기
+# 바 클래스 만들기
 class Bar:
     def __init__(self):
         self.start_x = 450
         self.start_y = 885
         self.x = 300
         self.y = 15
+        self.speed = 5
         self.color = random.choice(color_list)
-    
+
     def draw_bar(self):
         pygame.draw.rect(screen, self.color, [self.start_x, self.start_y, self.x, self.y])
+
+
+# 공 클래스 만들기
+class Ball:
+    def __init__(self):
+        self.pos = [600, 870]
+        self.radius = 15
+        self.color = random.choice(color_list)
+
+    def draw_ball(self):
+        pygame.draw.circle(screen, self.color, self.pos, self.radius)
 
 
 pygame.init()  # pygame 초기화
@@ -53,10 +65,17 @@ Quit = False
 clock.tick(60)
 
 # 메인 루프
+bar = Bar()
+left_move = False
+right_move = False
+
 while not Quit:
     for event in pygame.event.get():  # 이벤트 처리 루프
         if event.type == pygame.QUIT:  # 종료 버튼(X)를 눌렀을 때 창 닫기
             Quit = True
+        if event.type == pygame.KEYDOWN:
+            if event.type.
+        bar.draw_bar()
         screen.fill(WHITE)
         pygame.display.flip()
 
