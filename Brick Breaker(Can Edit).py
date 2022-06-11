@@ -10,7 +10,7 @@ class Brick:
         self.start_y = y
         self.x = 234
         self.y = 105
-        self.color = random.choice(color_list)
+        self.color = random.randint(50, 255), random.randint(50, 255), random.randint(50, 255)
 
     def draw_rectangle(self):
         pygame.draw.rect(screen, self.color, [self.start_x, self.start_y, self.x, self.y])
@@ -20,11 +20,11 @@ class Brick:
 class Bar:
     def __init__(self):
         self.start_x = 450
-        self.start_y = 885
+        self.start_y = 870
         self.x = 300
-        self.y = 15
+        self.y = 25
         self.speed = 4
-        self.color = random.choice(color_list)
+        self.color = random.randint(50, 255), random.randint(50, 255), random.randint(50, 255)
 
     def draw_bar(self):
         pygame.draw.rect(screen, self.color, [self.start_x, self.start_y, self.x, self.y])
@@ -35,7 +35,7 @@ class Ball:
     def __init__(self):
         self.pos = [600, 870]
         self.radius = 15
-        self.color = random.choice(color_list)
+        self.color = random.randint(50, 255), random.randint(50, 255), random.randint(50, 255)
 
     def draw_ball(self):
         pygame.draw.circle(screen, self.color, self.pos, self.radius)
@@ -51,10 +51,10 @@ PURPLE = (139, 0, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
-YELLOW = (255, 255, 0)
+YELLOW= (255, 255, 0)
 ORANGE = (255, 127, 0)
 BROWN = (163, 111, 64)
-color_list = [PINK, PURPLE, GREEN, RED, BLUE, YELLOW, ORANGE, BROWN]
+color_list = [PINK, PURPLE, GREEN, RED, BLUE, YELLOW, ORANGE, BROWN, BLACK]
 
 # pygame 창 설정
 size = (1200, 900)
@@ -91,7 +91,7 @@ while not Quit:
         bar.start_x = 0
     elif bar.start_x > 900:
         bar.start_x = 900
-    screen.fill(WHITE)
+    screen.fill(BLACK)
     bar.draw_bar()
     pygame.display.flip()
 
