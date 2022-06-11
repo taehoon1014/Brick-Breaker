@@ -23,7 +23,7 @@ class Bar:
         self.start_y = 885
         self.x = 300
         self.y = 15
-        self.speed = 5
+        self.speed = 4
         self.color = random.choice(color_list)
 
     def draw_bar(self):
@@ -75,17 +75,25 @@ while not Quit:
             Quit = True
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                bar.start_x -= 5
+                left_move = True
             if event.key == pygame.K_RIGHT:
-                bar.start_x += 5
+                right_move = True
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
                 left_move = False
             if event.key == pygame.K_RIGHT:
                 right_move = False
-        bar.draw_bar()
-        screen.fill(WHITE)
-        pygame.display.flip()
+    if left_move:
+        bar.start_x -= bar.speed
+    elif right_move:
+        bar.start_x += bar.speed
+    if bar.start_x < 0:
+        bar.start_x = 0
+    elif bar.start_x > 900:
+        bar.start_x = 900
+    screen.fill(WHITE)
+    bar.draw_bar()
+    pygame.display.flip()
 
 # pygame, 밑 system 종료
 pygame.quit()
