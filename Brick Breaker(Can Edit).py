@@ -74,7 +74,15 @@ while not Quit:
         if event.type == pygame.QUIT:  # 종료 버튼(X)를 눌렀을 때 창 닫기
             Quit = True
         if event.type == pygame.KEYDOWN:
-            if event.type.
+            if event.key == pygame.K_LEFT:
+                bar.start_x -= 5
+            if event.key == pygame.K_RIGHT:
+                bar.start_x += 5
+        elif event.type == pygame.KEYUP:
+            if event.key == pygame.K_LEFT:
+                left_move = False
+            if event.key == pygame.K_RIGHT:
+                right_move = False
         bar.draw_bar()
         screen.fill(WHITE)
         pygame.display.flip()
