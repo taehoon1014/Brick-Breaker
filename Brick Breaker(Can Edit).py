@@ -8,8 +8,8 @@ class Brick:
     def __init__(self, x, y):
         self.start_x = x
         self.start_y = y
-        self.x = 234
-        self.y = 105
+        self.x = 234  #가로 5개
+        self.y = 105  #세로 4개
         self.color = random.randint(50, 255), random.randint(50, 255), random.randint(50, 255)
 
     def draw_rectangle(self):
@@ -23,7 +23,7 @@ class Bar:
         self.start_y = 870
         self.x = 300
         self.y = 25
-        self.speed = 4
+        self.speed = 2
         self.color = random.randint(50, 255), random.randint(50, 255), random.randint(50, 255)
 
     def draw_bar(self):
@@ -51,7 +51,7 @@ PURPLE = (139, 0, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
-YELLOW= (255, 255, 0)
+YELLOW = (255, 255, 0)
 ORANGE = (255, 127, 0)
 BROWN = (163, 111, 64)
 color_list = [PINK, PURPLE, GREEN, RED, BLUE, YELLOW, ORANGE, BROWN, BLACK]
@@ -66,6 +66,11 @@ clock.tick(60)
 
 # 메인 루프
 bar = Bar()
+brick_list = []
+for i in range(5):
+    for j in range(4):
+        brick = Brick(5 + 239 * i, 5 + 110 * j)
+        brick_list.append(brick)
 left_move = False
 right_move = False
 
@@ -93,6 +98,8 @@ while not Quit:
         bar.start_x = 900
     screen.fill(BLACK)
     bar.draw_bar()
+    for i in range(20):
+        brick_list[i].draw_rectangle()
     pygame.display.flip()
 
 # pygame, 밑 system 종료
