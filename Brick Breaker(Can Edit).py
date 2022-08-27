@@ -23,7 +23,7 @@ class Bar:
         self.start_y = 870
         self.x = 300
         self.y = 25
-        self.speed = 2
+        self.speed = 4
         self.color = random.randint(50, 255), random.randint(50, 255), random.randint(50, 255)
 
     def draw_bar(self):
@@ -33,12 +33,14 @@ class Bar:
 # 공 클래스 만들기
 class Ball:
     def __init__(self):
-        self.pos = [600, 870]
-        self.radius = 15
-        self.color = random.randint(50, 255), random.randint(50, 255), random.randint(50, 255)
+        self.ball_img = pygame.image.load("진짜 공.png")
+        self.ball_img = pygame.transform.scale(self.ball_img, (50, 50))
+        self.speed = 5
+        self.start_x = 575
+        self.start_y = 810
 
     def draw_ball(self):
-        pygame.draw.circle(screen, self.color, self.pos, self.radius)
+        screen.blit(self.ball_img, (self.start_x, self.start_y))
 
 
 pygame.init()  # pygame 초기화
@@ -67,6 +69,7 @@ clock.tick(60)
 # 메인 루프
 bar = Bar()
 brick_list = []
+ball = Ball()
 for i in range(5):
     for j in range(4):
         brick = Brick(5 + 239 * i, 5 + 110 * j)
@@ -98,6 +101,7 @@ while not Quit:
         bar.start_x = 900
     screen.fill(BLACK)
     bar.draw_bar()
+    ball.draw_ball()
     for i in range(20):
         brick_list[i].draw_rectangle()
     pygame.display.flip()
