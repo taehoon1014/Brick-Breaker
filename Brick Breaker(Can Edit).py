@@ -1,3 +1,4 @@
+import math
 import pygame
 import sys
 import random
@@ -8,8 +9,8 @@ class Brick:
     def __init__(self, x, y):
         self.start_x = x
         self.start_y = y
-        self.x = 234  #가로 5개
-        self.y = 105  #세로 4개
+        self.x = 234  # 가로 5개
+        self.y = 105  # 세로 4개
         self.color = random.randint(50, 255), random.randint(50, 255), random.randint(50, 255)
 
     def draw_rectangle(self):
@@ -35,9 +36,12 @@ class Ball:
     def __init__(self):
         self.ball_img = pygame.image.load("진짜 공.png")
         self.ball_img = pygame.transform.scale(self.ball_img, (50, 50))
-        self.speed = 5
+        self.speed = 6
         self.start_x = 575
         self.start_y = 810
+        self.direction = 0
+        while not ((20 <= self.direction <= 70) or (110 <= self.direction <= 160)):
+            self.direction = random.randint(20, 160)
 
     def draw_ball(self):
         screen.blit(self.ball_img, (self.start_x, self.start_y))
@@ -99,9 +103,12 @@ while not Quit:
         bar.start_x = 0
     elif bar.start_x > 900:
         bar.start_x = 900
+
     screen.fill(BLACK)
     bar.draw_bar()
     ball.draw_ball()
+    ball.start_x -= ball.speed * math.cos(math.pi * (ball.direction / 180))
+    ball.start_y -= ball.speed * math.sin(math.pi * (ball.direction / 180))
     for i in range(20):
         brick_list[i].draw_rectangle()
     pygame.display.flip()
