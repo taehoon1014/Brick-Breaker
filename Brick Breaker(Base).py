@@ -42,6 +42,8 @@ class Ball:
         self.direction = 0
         while not ((20 <= self.direction <= 70) or (110 <= self.direction <= 160)):
             self.direction = random.randint(20, 160)
+        self.move_x = math.cos(math.pi * (self.direction / 180))
+        self.move_y = math.sin(math.pi * (self.direction / 180))
 
     def draw_ball(self):
         screen.blit(self.ball_img, (self.start_x, self.start_y))
@@ -107,8 +109,21 @@ while not Quit:
     screen.fill(BLACK)
     bar.draw_bar()
     ball.draw_ball()
-    ball.start_x -= ball.speed * math.cos(math.pi * (ball.direction / 180))
-    ball.start_y -= ball.speed * math.sin(math.pi * (ball.direction / 180))
+    ball.start_x -= ball.speed * ball.move_x
+    ball.start_y -= ball.speed * ball.move_y
+
+    # 왼쪽 벽 부딪혔을 때
+    if ball.start_x <= 0:
+        ball.move_x = -ball.move_x
+
+    # 오른쪽벽 부딪혔을 때
+    elif ball.start_x >= 1150:
+        ball.move_x = -ball.move_x
+
+    # 윗쪽 벽 부딪혔을 때
+    elif ball.start_y <= 0:
+        ball.move_y = -ball.move_y
+
     for i in range(20):
         brick_list[i].draw_rectangle()
     pygame.display.flip()
