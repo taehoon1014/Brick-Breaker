@@ -24,7 +24,7 @@ class Bar:
         self.start_y = 870
         self.x = 300
         self.y = 25
-        self.speed = 4
+        self.speed = 1
         self.color = random.randint(50, 255), random.randint(50, 255), random.randint(50, 255)
 
     def draw_bar(self):
@@ -36,11 +36,11 @@ class Ball:
     def __init__(self):
         self.ball_img = pygame.image.load("진짜 공.png")
         self.ball_img = pygame.transform.scale(self.ball_img, (50, 50))
-        self.speed = 6
+        self.speed = 1
         self.start_x = 575
         self.start_y = 810
         self.direction = 0
-        while not ((20 <= self.direction <= 70) or (110 <= self.direction <= 160)):
+        while not ((20 <= self.direction <= 70) or (110 <= self.direction <= 160)):  # 처음 각도 조정
             self.direction = random.randint(20, 160)
         self.move_x = math.cos(math.pi * (self.direction / 180))
         self.move_y = math.sin(math.pi * (self.direction / 180))
@@ -72,7 +72,25 @@ clock = pygame.time.Clock()
 Quit = False
 clock.tick(60)
 
+#게임 대기화면
+SB = 0
+while SB == 0:
+    clock.tick(60)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                SB = 1
+    screen.fill(BLACK)
+    font = pygame.font.Font("C:/Users/배유찬/AppData/Local/Microsoft/Windows/Fonts/neodgm.ttf", 30)
+    text = font.render("PRESS SPACE KEY TO START THE GAME", True, (255, 0, 0))
+    screen.blit(text, (350, round(size[1] / 2 - 50)))
+    pygame.display.flip()
+
 # 메인 루프
+GO = 0
 bar = Bar()
 brick_list = []
 ball = Ball()
@@ -86,6 +104,7 @@ right_move = False
 while not Quit:
     for event in pygame.event.get():  # 이벤트 처리 루프
         if event.type == pygame.QUIT:  # 종료 버튼(X)를 눌렀을 때 창 닫기
+
             Quit = True
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
@@ -124,10 +143,59 @@ while not Quit:
     elif ball.start_y <= 0:
         ball.move_y = -ball.move_y
 
-    for i in range(20):
+    # 공이 땅에 떨어졌을떄
+    elif ball.start_y > 900:
+        GO = 1
+        Quit = True
+
+    # 바에 부딪혔을때
+    if ball.start_y >= 820 and (bar.start_x <= ball.start_x <= (bar.start_x + 300)): # 윗쪽
+        ball.move_y = -ball.move_y
+
+    # 벽돌에 부딪혔을떄
+    num_bricks = len(brick_list)
+    num = -1
+    for i in range(num_bricks):
+        num = i
+        this_brick_x = brick_list[i].start_x
+        this_brick_y = brick_list[i].start_y
+        """
+        공 전체 크기: 50x50
+        벽돌 전체 크기: 234x105
+        벽돌 간격 포함: 239x110
+        """
+        if this_brick_y - 50 <= ball.start_y < this_brick_y and this_brick_x - 25 < ball.start_x < this_brick_x + 234 - 25:  # 벽돌 위
+            ball.move_y = -ball.move_y
+            break
+        elif this_brick_y + 105 - 50 < ball.start_y <= this_brick_y + 105 and this_brick_x - 25 < ball.start_x < this_brick_x + 234 - 25:  # 벽돌 아래
+            ball.move_y = -ball.move_y
+            break
+        elif this_brick_y - 25 < ball.start_y < this_brick_y + 105 - 25 and this_brick_x - 50 <= ball.start_x < this_brick_x - 25:  # 벽돌 왼쪽
+            ball.move_x = -ball.move_x
+            break
+        elif this_brick_y - 25 < ball.start_y < this_brick_y + 105 - 25 and this_brick_x + 234 - 25 <= ball.start_x <= this_brick_x + 234:  # 벽돌 오른쪽
+            ball.move_x = -ball.move_x
+            break
+        else:
+            num = -1
+
+    if num != -1:
+        del brick_list[num]
+
+    for i in range(len(brick_list)):
         brick_list[i].draw_rectangle()
     pygame.display.flip()
 
 # pygame, 밑 system 종료
+while GO == 1:
+    clock.tick(60)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+    font = pygame.font.Font("C:/Users/배유찬/AppData/Local/Microsoft/Windows/Fonts/neodgm.ttf", 120)
+    text = font.render("GAME OVER", True, (255, 0, 0))
+    screen.blit(text, (330, round(size[1] / 2 - 80)))
+    pygame.display.flip()
 pygame.quit()
 sys.exit()
